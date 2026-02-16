@@ -28,6 +28,15 @@ configurePassport();
 // Passport middleware
 app.use(passport.session());
 
+// Routes
+app.get("/sign-up", (req, res) => {
+  res.render("sign-up-form");
+});
+
+app.post("/sign-up", (req, res) => {
+  res.send("sign up post");
+});
+
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);
 });
