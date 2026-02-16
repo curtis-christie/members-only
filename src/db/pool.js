@@ -9,10 +9,12 @@ function must(name) {
   return v;
 }
 
-export default new Pool({
+const pool = new Pool({
   host: must("PGHOST"),
   user: must("PGUSER"),
   database: must("PGDATABASE"),
   password: must("PGPASSWORD"),
   port: Number(process.env.PGPORT ?? 5432),
 });
+
+export default pool;

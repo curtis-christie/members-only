@@ -1,4 +1,4 @@
-import { pool } from "../db/pool.js";
+import pool from "../db/pool.js";
 
 // create message
 export async function createMessage({ title, body, authorId }) {
