@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import sessionMiddleware from "./config/session.js";
 import dotenv from "dotenv";
 import { configurePassport } from "./config/passport.js";
+import userRouter from "./routes/user.routes.js";
 dotenv.config();
 
 const app = express();
@@ -19,6 +20,10 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
 // sessions must come before passport.session()
 app.use(sessionMiddleware);
 
@@ -27,15 +32,7 @@ configurePassport();
 
 // Passport middleware
 app.use(passport.session());
-
-// Routes
-app.get("/sign-up", (req, res) => {
-  res.render("sign-up-form");
-});
-
-app.post("/sign-up", (req, res) => {
-  res.send("sign up post");
-});
+app.use("/sign-up", userRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);
