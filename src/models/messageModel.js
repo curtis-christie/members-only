@@ -1,7 +1,7 @@
 import pool from "../db/pool.js";
 
 // create message
-export async function createMessage({ title, body, authorId }) {
+async function createMessage({ title, body, authorId }) {
   const result = await pool.query(
     `
     INSERT INTO messages (title, body, author_id)
@@ -15,7 +15,7 @@ export async function createMessage({ title, body, authorId }) {
 }
 
 // get all messages with author info
-export async function name() {
+async function getMessagesByAuthor() {
   const result = await pool.query(`
     SELECT
       m.*,
@@ -29,6 +29,12 @@ export async function name() {
 }
 
 // delete message
-export async function name(id) {
+async function deleteMessageById(id) {
   await pool.query("DELETE FROM messages WHERE id = $1", [id]);
 }
+
+export const message = {
+  createMessage,
+  getMessagesByAuthor,
+  deleteMessageById,
+};

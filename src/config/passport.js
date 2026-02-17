@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
-import { findByEmail, findById } from "../models/userModel.js";
+import db from "../models/index.model.js";
 
 export function configurePassport() {
   // 1) Local Strategy: how login verifies credentials
@@ -11,9 +11,9 @@ export function configurePassport() {
         usernameField: "email",
         passwordField: "password",
       },
-      async (findByEmail, password, done) => {
+      async (password, done) => {
         try {
-          const user = await findByEmail(email);
+          const user = await db.user.findByEmail(email);
           if (!user) return done(null, false, { message: "Incorrect email" });
 
           const ok = await bcrypt.compare(password, user.password_hash);
@@ -29,7 +29,7 @@ export function configurePassport() {
 
   passport.serializeUser(async (id, done) => {
     try {
-      const user = await findById(id);
+      const user = await db.user.findById(id);
       return done(null, user || false);
     } catch (err) {
       return done(err);

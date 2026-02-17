@@ -3,9 +3,11 @@ import passport from "passport";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sessionMiddleware from "./config/session.js";
-import dotenv from "dotenv";
 import { configurePassport } from "./config/passport.js";
 import userRouter from "./routes/user.routes.js";
+import messageRouter from "./routes/messages.routes.js";
+import dotenv from "dotenv";
+import { indexRouter } from "./routes/index.routes.js";
 dotenv.config();
 
 const app = express();
@@ -32,7 +34,9 @@ configurePassport();
 
 // Passport middleware
 app.use(passport.session());
+app.use("/", indexRouter);
 app.use("/sign-up", userRouter);
+app.use("/messages", messageRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);
