@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 
 export const signupValidation = [
-  body("first_name")
+  body("firstName")
     .notEmpty()
     .withMessage("Must enter name")
     .trim()
@@ -10,7 +10,7 @@ export const signupValidation = [
     .isLength({ min: 1, max: 25 })
     .withMessage("Name must be between 1 and 25 characters"),
 
-  body("last_name")
+  body("lastName")
     .notEmpty()
     .withMessage("Must enter name")
     .trim()

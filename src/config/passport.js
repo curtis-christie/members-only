@@ -10,15 +10,15 @@ export function configurePassport() {
       {
         usernameField: "email",
         passwordField: "password",
+        passReqToCallback: false,
       },
-      async (password, done) => {
+      async (email, password, done) => {
         try {
           const user = await db.user.findByEmail(email);
           if (!user) return done(null, false, { message: "Incorrect email" });
 
           const ok = await bcrypt.compare(password, user.password_hash);
           if (!ok) return done(null, false, { message: "Incorrect password" });
-
           return done(null, user);
         } catch (err) {
           return done(err);

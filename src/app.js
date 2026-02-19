@@ -9,6 +9,7 @@ import userRouter from "./routes/user.routes.js";
 import messageRouter from "./routes/messages.routes.js";
 import joinRouter from "./routes/join.routes.js";
 import dotenv from "dotenv";
+import loginRouter from "./routes/login.routes.js";
 dotenv.config();
 
 const app = express();
@@ -35,8 +36,18 @@ configurePassport();
 
 // Passport middleware
 app.use(passport.session());
+
+//!! Debugger logs
+// app.use((req, res, next) => {
+//   console.log(req.session);
+//   console.log(req.user);
+//   next();
+// });
+
+// Routes
 app.use("/", indexRouter);
 app.use("/sign-up", userRouter);
+app.use("/login", loginRouter);
 app.use("/messages", messageRouter);
 app.use("/join", joinRouter);
 
