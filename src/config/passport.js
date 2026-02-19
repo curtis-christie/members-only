@@ -27,7 +27,11 @@ export function configurePassport() {
     ),
   );
 
-  passport.serializeUser(async (id, done) => {
+  passport.serializeUser((user, done) => {
+    return done(null, user.id);
+  });
+
+  passport.deserializeUser(async (id, done) => {
     try {
       const user = await db.user.findById(id);
       return done(null, user || false);

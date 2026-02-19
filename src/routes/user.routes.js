@@ -10,7 +10,7 @@ userRouter.get("/", (req, res) => {
 });
 userRouter.post("/", signupValidation, handleValidationErrors, handleSignup);
 
-userRouter.patch("/join-club/:id", (req, res) => {
+userRouter.patch("/join/:id", (req, res) => {
   // update logic
 });
 
