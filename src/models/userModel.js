@@ -2,18 +2,18 @@ import pool from "../db/pool.js";
 
 // create user
 async function createUser(user) {
-  const { firstName, lastName, email, passwordHash } = user;
+  const { firstName, lastName, email, passwordHash, is_admin } = user;
 
   const result = await pool.query(
     `
     INSERT INTO users
-    (first_name, last_name, email, password_hash)
-    VALUES ($1, $2, $3, $4)
+    (first_name, last_name, email, password_hash, is_admin)
+    VALUES ($1, $2, $3, $4, $5)
     ON CONFLICT (email)
     DO NOTHING
     RETURNING *
     `,
-    [firstName, lastName, email, passwordHash],
+    [firstName, lastName, email, passwordHash, is_admin],
   );
 
   return result;

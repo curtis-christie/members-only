@@ -8,7 +8,38 @@
   </head>
   <body>
     <h1>Home Page</h1>
+    <% if (currentUser && currentUser?.is_member) {%>
+      <h2>You are a member</h2>
+    <% } %>
     <a href="/sign-up">Sign Up</a>
+    <span>|</span>
     <a href="/login">Login</a>
+    <span>|</span>
+    <% if (currentUser) {%>
+      <a href="/messages/create">Create a Message</a>
+      <span>|</span>
+      <a href="/logout">Logout</a>
+    <% } %>
+    <% if (currentUser && !currentUser.is_member) {%>
+      <span>|</span>
+      <a href="/join">Join the Club</a>
+    <% } %>
+    <hr>
+    <div>
+      <% messages.forEach(m => { %>
+        <p><%=m.title%></p> 
+        <p><%=m.body%></p>
+        <% if (currentUser) {%>
+          <p><%=m.created_at%></p>
+          <p><%=`${m.first_name} ${m.last_name}`%></p>
+          <% if (currentUser?.is_admin) {%>
+            <form action="/messages/delete/<%= m.id %>" method="POST">
+              <button type="submit" onclick="return confirm('Are you sure?')" >Delete</button>
+            </form>
+          <% } %>
+        <% } %>
+        <hr>
+      <% }); %>
+    </div>
   </body>
 </html>

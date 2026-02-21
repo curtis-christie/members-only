@@ -6,8 +6,7 @@ import db from "../models/index.model.js";
 
 const joinRouter = Router();
 
-//TODO add requireAuth to routes
-joinRouter.get("/", (req, res) => {
+joinRouter.get("/", requireAuth, (req, res) => {
   if (req.user?.is_member) return res.redirect("/");
   res.render("join", { errors: [], form: { passcode: "" } });
 });
